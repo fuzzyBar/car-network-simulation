@@ -24,13 +24,16 @@ func (n *Network) AddVehicle(v *vehicle.Vehicle) {
 
 func (n *Network) RemoveInactiveVehicles() {
 	activeVehicles := make([]*vehicle.Vehicle, 0)
-	for _, v := range n.Vehicles {
+	for i, v := range n.Vehicles {
 		if v.Active {
 			activeVehicles = append(activeVehicles, v)
 		} else {
+			n.Vehicles[i].Close()
+			n.Vehicles[i] = nil
 			fmt.Printf("Vehicle %d is no longer active and has been removed\n", v.ID)
 		}
 	}
+	// n.Vehicles = nil
 	n.Vehicles = activeVehicles
 }
 
@@ -38,7 +41,7 @@ func (n *Network) SimulateTimeStep() {
 	for _, v := range n.Vehicles {
 		if v.Active {
 			v.Move(n.Graph)
-			v.ProcessTasks()
+			v.HandleTasks()
 		}
 	}
 	n.RemoveInactiveVehicles() // 移除不再活跃的车辆

@@ -14,5 +14,5 @@ func main() {
 	sim := simulation.NewSimulation(5) // 车辆计算资源为 5
 
 	// 运行模拟
-	sim.Run(160, 20) // 模拟 50 个时间步长，车辆生成概率为 20%
+	sim.Run(160, 20) // 模拟 50 个时间步长，车辆生成频率为20%
 }
