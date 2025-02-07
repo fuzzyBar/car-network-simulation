@@ -1,7 +1,11 @@
 package graph
 
+import (
+	"math"
+)
+
 type Graph struct {
-	Nodes  []int       // 节点集合
+	Nodes  [][]int     // 节点坐标
 	Matrix [][]float64 // 邻接矩阵，存储边的权值
 }
 
@@ -23,7 +27,20 @@ func NewGraph() *Graph {
 	}
 
 	return &Graph{
-		Nodes:  []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
+		Nodes: [][]int{
+			{400, 1200},
+			{800, 1200},
+			{1200, 800},
+			{1200, 400},
+			{800, 0},
+			{400, 0},
+			{0, 400},
+			{0, 800},
+			{400, 800},
+			{800, 800},
+			{800, 400},
+			{400, 400},
+		},
 		Matrix: matrix,
 	}
 }
@@ -41,5 +58,21 @@ func (g *Graph) GetNeighbors(node int) []int {
 
 // GetEdgeWeight 获取两个节点之间的边的权值
 func (g *Graph) GetEdgeWeight(from, to int) float64 {
+	if g.Matrix[from][to] > 1 {
+		return g.Matrix[from][to]
+	}
+	g.Matrix[from][to] = GetCarDistance(
+		float64(g.Nodes[from][0]),
+		float64(g.Nodes[to][0]),
+		float64(g.Nodes[from][1]),
+		float64(g.Nodes[to][1]),
+	)
+	g.Matrix[to][from] = g.Matrix[from][to]
 	return g.Matrix[from][to]
+}
+
+func GetCarDistance(x1, x2, y1, y2 float64) float64 {
+	return math.Sqrt(
+		(x1-x2)*(x1-x2) + (y1-y2)*(y1-y2),
+	)
 }

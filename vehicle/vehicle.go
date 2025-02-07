@@ -140,6 +140,18 @@ func (v *Vehicle) Process(mytask *Task) {
 	}
 }
 
+// 新任务的生成
+func (v *Vehicle) NewTask() {
+	v.AddTask(
+		&Task{
+			//ID:          rand.Intn(1000),
+			Size:        rand.Intn(10) + 1,
+			ResourceReq: rand.Intn(50) + 1,
+			Remaining:   rand.Intn(5) + 1,
+		},
+	)
+}
+
 func (v *Vehicle) Close() {
 	for i := range v.Tasks {
 		v.Tasks[i] = nil

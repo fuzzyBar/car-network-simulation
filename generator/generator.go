@@ -38,8 +38,8 @@ func (g *VehicleGenerator) GenerateVehicle() *vehicle.Vehicle {
 		}
 	}
 
-	// 随机生成速度（10-30 米/秒）
-	speed := rand.Intn(21) + 10
+	// 随机生成速度（8 - 14 米/秒）30km/h - 50km/h 市区密集生活区等车辆一般速度范围
+	speed := rand.Intn(6) + 8
 
 	// 初始化 DistanceLeft
 	distanceLeft := g.Graph.GetEdgeWeight(currentNode, nextNode)
