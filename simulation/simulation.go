@@ -16,16 +16,16 @@ type Simulation struct {
 	VehicleGenerator *generator.VehicleGenerator
 }
 
-func NewSimulation(computePower int) *Simulation {
-	g := graph.NewGraph()
+func NewSimulation() *Simulation {
+	g := graph.NewGraph().InitializeGraph()
 	return &Simulation{
 		Network:          network.NewNetwork(g),
-		VehicleGenerator: generator.NewVehicleGenerator(g, computePower),
+		VehicleGenerator: generator.NewVehicleGenerator(g),
 	}
 }
 
 func (s *Simulation) Run(steps int, vehicleSpawnRate int) {
-	for i := 0; i < steps; i++ {
+	for i := range steps {
 		fmt.Printf("Time step %d:\n\n", i+1)
 
 		// 每20step, 即1秒, 尝试随机生成新任务, 尝试生成新车辆
@@ -48,7 +48,7 @@ func (s *Simulation) Run(steps int, vehicleSpawnRate int) {
 func (s *Simulation) TasksGeneration(tryNum, successRate int) {
 	for _, car := range s.Network.Vehicles {
 		// 尝试生成任务的次数
-		for i := 0; i < tryNum; i++ {
+		for range tryNum {
 			// 每个任务生成的成功率50%
 			if rand.Intn(100) < successRate {
 				car.NewTask()

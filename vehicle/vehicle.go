@@ -11,14 +11,15 @@ type Vehicle struct {
 	CurrentNode      int     // 当前所在节点
 	NextNode         int     // 下一个节点
 	NextNextNode     int     // 下下个节点
-	Speed            int     // 车辆速度（米/秒）
+	Speed            int     // 车辆速度（米/秒)
 	DistanceLeft     float64 // 剩余距离（米）
-	Tasks            []*Task
+	Tasks            []*Task // 任务队列
 	ComputePower     int     // 车辆的计算资源
 	ComputePowerleft int     // 车辆剩余计算资源
 	Active           bool    // 车辆是否仍在模拟中
-	TasksToSend      []*Task //发送通道
-	TaskToReceive    []*Task //接收通道
+	TasksToSend      []*Task // 发送通道
+	TaskToReceive    []*Task // 接收通道
+	ReachableCars    []*Vehicle
 }
 
 type Task struct {
@@ -31,39 +32,19 @@ type Task struct {
 	//transporting bool
 }
 
-func NewVehicle(id, currentNode, nextNode, nextNextNode, speed, computePower, computePowerleft int, distanceLeft float64) *Vehicle {
-	return &Vehicle{
-		ID:               id,
-		CurrentNode:      currentNode,
-		NextNode:         nextNode,
-		NextNextNode:     nextNextNode,
-		Speed:            speed,
-		DistanceLeft:     distanceLeft,
-		ComputePower:     computePower,
-		ComputePowerleft: computePowerleft,
-		Active:           true,
-	}
+func NewVehicle() *Vehicle {
+	return &Vehicle{}
 }
 
 func (v *Vehicle) AddTask(task *Task) {
 	v.Tasks = append(v.Tasks, task)
-	fmt.Printf("Vehicle added task\n") //v.ID, task.ID)
+	//fmt.Printf("Vehicle added task\n") //v.ID, task.ID)
 }
 
 // 车辆任务处理模拟, unfinished
 func (v *Vehicle) HandleTasks() {
 	for i := range v.Tasks {
-
 		v.Process(v.Tasks[i])
-
-		// if v.Tasks[i].Remaining > 0 {
-		// 	if v.ComputePower >= v.Tasks[i].ResourceReq {
-		// 		v.Tasks[i].Remaining--
-		// 		fmt.Printf("Vehicle %d processing task %d, remaining time: %d\n", v.ID, v.Tasks[i].ID, v.Tasks[i].Remaining)
-		// 	} else {
-		// 		fmt.Printf("Vehicle %d failed to process task %d due to insufficient compute resources\n", v.ID, v.Tasks[i].ID)
-		// 	}
-		// }
 	}
 }
 

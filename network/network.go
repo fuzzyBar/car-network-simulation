@@ -14,6 +14,7 @@ import (
 type Network struct {
 	Vehicles []*vehicle.Vehicle
 	Graph    *graph.Graph
+	//ReachableCars []*vehicle.Vehicle
 }
 
 func NewNetwork(g *graph.Graph) *Network {
@@ -39,7 +40,7 @@ func (n *Network) AddVehicle(v *vehicle.Vehicle) {
 	fmt.Printf("Vehicle %d added to network\n", v.ID)
 }
 
-// 移除网络中已达重点的车辆
+// 移除网络中已达终点的车辆
 func (n *Network) RemoveInactiveVehicles() {
 	activeVehicles := make([]*vehicle.Vehicle, 0)
 	for i, v := range n.Vehicles {
